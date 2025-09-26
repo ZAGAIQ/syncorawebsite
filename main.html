@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SYNCORA — Автоматизация бизнеса</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --white: #ffffff;
+      --black: #000000;
+      --radius: 28px;
+      --pill-radius: 999px;
+      --card-bg: rgba(255,255,255,0.03);
+      --card-border: rgba(255,255,255,0.06);
+      --text-muted: rgba(255,255,255,0.75);
+      --header-height: 72px;
+
+      --main-gradient: linear-gradient(45deg, #1db17f, #07a87b); /* основной градиент */
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;}
+    body{
+      min-height:100%;
+      font-family:"Rubik", sans-serif;
+      font-weight:500;
+      background: var(--black);
+      color:var(--white);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.55;
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+    header{
+      position:fixed;
+      left:0;right:0;top:0;
+      height:var(--header-height);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:0 28px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      border-bottom:1px solid rgba(255,255,255,0.04);
+      z-index:1200;
+      border-radius:0 0 18px 18px;
+    }
+    .logo{
+      font-weight:700;
+      font-size:1.5rem;
+      letter-spacing:1.5px;
+      background: var(--main-gradient);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    nav {display:flex; align-items:center; gap:18px}
+    nav ul{display:flex; list-style:none; gap:22px; align-items:center}
+    nav a{font-weight:600; color:var(--white); padding:8px 10px; border-radius:12px; transition:all .18s ease}
+    nav a:hover{background:rgba(255,255,255,0.06); transform:translateY(-2px)}
+
+    .burger{
+      display:none;
+      width:44px;height:44px;border-radius:12px;
+      align-items:center;justify-content:center;
+      cursor:pointer;background:transparent;border:none;
+    }
+    .burger .lines{position:relative;width:22px;height:14px}
+    .burger .lines span{
+      position:absolute;left:0;right:0;height:2px;background:var(--white);
+      border-radius:2px;display:block;transition:all .28s ease;
+    }
+    .burger .lines span:nth-child(1){top:0}
+    .burger .lines span:nth-child(2){top:6px}
+    .burger .lines span:nth-child(3){top:12px}
+
+    .mobile-menu{display:none;}
+    main{padding-top: calc(var(--header-height) + 22px)}
+
+    .hero {
+        position: relative;
+        min-height: calc(100vh - var(--header-height));
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 48px 20px;
+
+        background:
+            linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,0.7) 70%, rgb(0, 0, 0) 98%),
+            url('source/banner.png') center/cover no-repeat;
+    }
+
+
+    .hero::before {
+        content: "";
+        position: absolute;
+        top:0; left:0; right:0; bottom:0;
+        background: rgba(0,0,0,0.45);
+        z-index:0;
+    }
+
+    /*source/banner.png*/
+
+    .hero > .container {
+        position: relative;
+        z-index: 1;
+        padding: 0 24px; /* отступы для текста */
+        max-width: 1200px; /* чтобы текст не растягивался слишком широко */
+    }
+
+    .project-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 16px;
+      display: block;
+      margin: 0 auto 16px; /* центрируем и добавляем отступ снизу */
+    }
+
+
+    .hero h1{font-size:2.8rem;font-weight:700;line-height:1.02;margin-bottom:14px}
+    .hero p{max-width:820px;color:var(--text-muted);margin-bottom:22px;font-size:1.05rem}
+    .cta{
+      display:inline-block;padding:14px 26px;border-radius:var(--pill-radius);
+      background: var(--main-gradient);
+      color:var(--white);font-weight:700;
+      box-shadow:0 10px 30px rgba(0,0,0,0.5);
+      transition:transform .18s ease, box-shadow .18s;
+    }
+    .cta:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(0,0,0,0.6)}
+
+    section{padding:56px 0}
+    h2{font-size:2.2rem;margin-bottom:28px;font-weight:700;text-align:center}
+    .card{
+      background:var(--card-bg);
+      border:1px solid var(--card-border);
+      padding:24px;border-radius:var(--radius);
+      transition:transform .22s ease, box-shadow .22s ease;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+    }
+    .card:hover{transform:translateY(-8px);box-shadow:0 18px 40px rgba(0,0,0,0.55)}
+
+    .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+    .service-icon{font-size:2.6rem;margin-bottom:12px;display:block}
+    .service-title{font-weight:700;margin-bottom:6px}
+    .service-text{color:var(--text-muted)}
+
+    .projects{position:relative;padding:18px 0}
+    .slider-viewport{overflow:hidden;border-radius:calc(var(--radius) - 8px)}
+    .slider{display:flex;transition:transform .45s cubic-bezier(.2,.9,.2,1);will-change:transform}
+    .slide{
+      min-width:100%;flex-shrink:0;padding:28px; box-sizing:border-box;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+    }
+    .slide .media {
+      padding: 0;         /* убираем внутренние отступы */
+      line-height: 0;
+      width: 100%;
+      max-width: 940px;
+      border-radius: 20px;
+      overflow: hidden; /* фото не вылезает за края */
+      border: 1px solid var(--card-border);
+      background: rgba(255,255,255,0.03);
+      display: flex;            /* чтобы убрать пустоты */
+      align-items: center;      /* картинка центрируется */
+      justify-content: center;
+    }
+
+    .slide .media img {
+      display: block;
+      width: 100%;
+      height: auto;             /* сохраняем пропорции */
+      border-radius: 20px;
+    }
+    
+    .slide h3{font-weight:700}
+    .slider-controls{
+      position:absolute;left:12px;right:12px;top:50%;
+      transform:translateY(-50%);display:flex;justify-content:space-between;
+    }
+    .ctrl{
+      background:rgba(0,0,0,0.55);border:0;color:var(--white);width:52px;height:52px;
+      border-radius:999px;font-size:22px;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 10px 20px rgba(0,0,0,0.6);transition:transform .15s, background .15s;
+    }
+    .ctrl:hover{transform:translateY(-3px);background:rgba(255,255,255,0.06)}
+    .dots{display:flex;gap:8px;justify-content:center;margin-top:14px}
+    .dot{
+      width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.2);cursor:pointer;transition:all .18s
+    }
+    .dot.active{
+      width:34px;border-radius:20px;
+      background: var(--main-gradient);
+    }
+
+    .contact{display:flex;flex-direction:column;gap:18px}
+    .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+    .contact-item h4{font-weight:700;color:var(--text-muted);margin-bottom:8px}
+
+    footer{padding:28px;text-align:center;color:rgba(255,255,255,0.65)}
+
+    [data-animate]{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+    [data-animate].visible{opacity:1;transform:translateY(0)}
+
+    /* Responsive */
+    @media (min-width: 820px) {
+      .slide .media {
+        max-width: 600px; /* делаем уже */
+        height: 440px;    /* делаем выше */
+      }
+
+      .slide .media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* чтобы фото красиво вписывалось */
+      }
+    }
+
+    @media (max-width: 980px){
+      .hero h1{font-size:2.4rem}
+      .hero p{font-size:1rem}
+      .container{padding:0 20px}
+    }
+    @media (max-width: 820px){
+
+      .slide .media {
+        width: 95%;
+        max-width: 100%;      /* блок сужается под экран */
+        height: auto;         /* высота под контент */
+        aspect-ratio: 16/9;
+        margin: 0 auto;   /* задаем соотношение сторон, можно изменить */
+      }
+      .slide .media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;    /* фото занимает весь блок */
+        border-radius: 20px;
+      }
+      .slide {
+        margin-bottom: 20px;
+      }
+
+      nav ul{display:none}
+      .burger{display:flex}
+      .mobile-menu{
+        display:block;
+        position:fixed;
+        left:12px;right:12px;
+        top: calc(var(--header-height) + 10px);
+        background: rgba(0,0,0,0.95);
+        border-radius:16px;
+        border:1px solid rgba(255,255,255,0.08);
+        box-shadow:0 20px 60px rgba(0,0,0,0.6);
+        padding:12px;
+        max-height:56vh;
+        overflow:auto;
+        transform: translateY(-12px);
+        opacity:0;pointer-events:none;
+        transition:opacity .22s ease, transform .22s ease;
+        z-index:1150;
+      }
+      .mobile-menu.active{opacity:1;transform:translateY(0);pointer-events:auto}
+      .mobile-menu ul{list-style:none;display:flex;flex-direction:column;gap:10px;padding:6px 8px}
+      .mobile-menu a{display:block;padding:12px 14px;border-radius:12px}
+      .mobile-menu a:hover{background:rgba(255,255,255,0.06)}
+    }
+
+    @media (max-width:600px){
+      .container{padding-left:20px;padding-right:20px}
+      .services-grid, .features-grid{grid-template-columns:1fr}
+      .slide .media{height:220px}
+      .hero h1{font-size:2rem}
+    }
+
+    @media (min-width:1400px){
+      .container{max-width:1400px}
+      .slide .media{height:380px}
+    }
+
+    /* --- Мобильная адаптация с блоками вместо карусели --- */
+    @media (max-width: 820px) {
+        .slider {
+            display: block !important;
+            transform: none !important;
+        }
+        .slide {
+            min-width: auto;
+            margin-bottom: 20px;
+        }
+        .slider-controls,
+        .dots {
+            display: none;
+        }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">SYNCORA</div>
+    <nav aria-label="Главное меню">
+      <ul>
+        <li><a href="#hero">Главная</a></li>
+        <li><a href="#services">Услуги</a></li>
+        <li><a href="#projects">Проекты</a></li>
+        <li><a href="#contact">Контакты</a></li>
+      </ul>
+    </nav>
+    <button class="burger" aria-label="Открыть меню" id="burgerBtn" aria-expanded="false">
+      <span class="lines"><span></span><span></span><span></span></span>
+    </button>
+    <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+      <ul>
+        <li><a href="#hero" data-mobile-link>Главная</a></li>
+        <li><a href="#services" data-mobile-link>Услуги</a></li>
+        <li><a href="#projects" data-mobile-link>Проекты</a></li>
+        <li><a href="#contact" data-mobile-link>Контакты</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="container"> <!-- контейнер для текста -->
+        <h1 data-animate>Превратите хаос в систему</h1>
+        <p data-animate>Мы создаём интеллектуальные решения для автоматизации бизнес-процессов: RPA, аналитика, интеграции.</p>
+        <a class="cta" href="#contact" data-animate>Получить консультацию</a>
+      </div>
+    </section>
+
+    <div class="container">
+    
+      <section id="services">
+        <div class="container">
+          <h2 data-animate>Наши услуги</h2>
+          <div class="services-grid">
+            <div class="card service-card" data-animate>
+              <span class="service-icon">🤖</span>
+              <div class="service-title">Роботизация процессов</div>
+              <div class="service-text">Автоматизируем рутинные операции с помощью RPA и скриптов.</div>
+            </div>
+            <div class="card service-card" data-animate>
+              <span class="service-icon">📊</span>
+              <div class="service-title">Аналитика</div>
+              <div class="service-text">Прозрачные дашборды и отчёты в реальном времени.</div>
+            </div>
+            <div class="card service-card" data-animate>
+              <span class="service-icon">⚙️</span>
+              <div class="service-title">Интеграции</div>
+              <div class="service-text">CRM, ERP и сервисы в единую экосистему.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" class="projects">
+        <div class="container">
+          <h2 data-animate>Наши проекты</h2>
+          <div class="slider-viewport card" data-animate>
+            <div class="slider" id="slider">
+              <div class="slide">
+                <div class="media"><img src="source/rag.png" alt="Проект 1" class="project-img"></div>
+                <h3>Проект 1 — Автоматизация учёта</h3>
+                <p class="service-text">Снижение ручного ввода на 78% и ускорение отчётности.</p>
+              </div>
+              <div class="slide">
+                <div class="media"><img src="source/meeting.png" alt="Проект 2" class="project-img"></div>
+                <h3>Проект 2 — Интеграция CRM</h3>
+                <p class="service-text">Единый поток данных и автоматические уведомления.</p>
+              </div>
+              <div class="slide">
+                <div class="media"><img src="source/content.png" alt="Проект 3" class="project-img"></div>
+                <h3>Проект 3 — Аналитика</h3>
+                <p class="service-text">Дашборды и алерты для ключевых метрик.</p>
+              </div>
+            </div>
+          </div>
+          <div class="slider-controls">
+            <button class="ctrl" id="prevBtn">&#10094;</button>
+            <button class="ctrl" id="nextBtn">&#10095;</button>
+          </div>
+          <div class="dots" id="dots"></div>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="container">
+          <h2 data-animate>Свяжитесь с нами</h2>
+          <div class="contact card" data-animate>
+            <p style="color:var(--text-muted)">Готовы обсудить автоматизацию? Мы сделаем быстрый анализ процессов бесплатно.</p>
+            <div class="contact-grid">
+              <div class="card contact-item">
+                <h4>Email</h4>
+                <p><a href="mailto:info@syncora.ru">info@syncora.ru</a></p>
+              </div>
+              <div class="card contact-item">
+                <h4>Телефон</h4>
+                <p><a href="tel:+74951234567">+7 (495) 123-45-67</a></p>
+              </div>
+              <div class="card contact-item">
+                <h4>Telegram</h4>
+                <p><a href="https://t.me/syncora_support">@syncora_support</a></p>
+              </div>
+            </div>
+            <div style="margin-top:14px">
+              <a href="mailto:info@syncora.ru" class="cta">Написать нам</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="year"></span> SYNCORA. Все права защищены.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      document.getElementById('year').textContent = new Date().getFullYear();
+      const burger = document.getElementById('burgerBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      burger.addEventListener('click', () => {
+        const active = mobileMenu.classList.toggle('active');
+        burger.setAttribute('aria-expanded', String(active));
+        mobileMenu.setAttribute('aria-hidden', String(!active));
+        const lines = burger.querySelectorAll('.lines span');
+        if (active) {
+          lines[0].style.transform = 'translateY(6px) rotate(45deg)';
+          lines[1].style.opacity = '0';
+          lines[2].style.transform = 'translateY(-6px) rotate(-45deg)';
+        } else {
+          lines[0].style.transform = '';
+          lines[1].style.opacity = '';
+          lines[2].style.transform = '';
+        }
+      });
+      mobileMenu.querySelectorAll('[data-mobile-link]').forEach(a => {
+        a.addEventListener('click', () => {
+          mobileMenu.classList.remove('active');
+          burger.setAttribute('aria-expanded','false');
+          mobileMenu.setAttribute('aria-hidden','true');
+          burger.querySelectorAll('.lines span').forEach(el=>{el.style.transform='';el.style.opacity=''});
+        });
+      });
+
+      // Slider
+      const slider = document.getElementById('slider');
+      const slides = document.querySelectorAll('.slide');
+      const dotsContainer = document.getElementById('dots');
+      let current=0;
+      function updateSlider(){
+        slider.style.transform=`translateX(-${current*100}%)`;
+        dotsContainer.querySelectorAll('.dot').forEach((d,i)=>{
+          d.classList.toggle('active',i===current);
+        });
+      }
+      slides.forEach((_,i)=>{
+        const dot=document.createElement('div');
+        dot.className='dot';
+        dot.addEventListener('click',()=>{current=i;updateSlider()});
+        dotsContainer.appendChild(dot);
+      });
+      updateSlider();
+      document.getElementById('prevBtn').addEventListener('click',()=>{
+        current=(current-1+slides.length)%slides.length;
+        updateSlider();
+      });
+      document.getElementById('nextBtn').addEventListener('click',()=>{
+        current=(current+1)%slides.length;
+        updateSlider();
+      });
+
+      // Animation
+      const observer=new IntersectionObserver(entries=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            e.target.classList.add('visible');
+            observer.unobserve(e.target);
+          }
+        });
+      },{threshold:0.2});
+      document.querySelectorAll('[data-animate]').forEach(el=>observer.observe(el));
+    });
+  </script>
+</body>
+</html>
